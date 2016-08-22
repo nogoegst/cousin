@@ -1,0 +1,11 @@
+ifconfig $COUSIN_IF down
+ifconfig $COUSIN_IF hw ether $COUSIN_MAC
+ifconfig $COUSIN_IF up
+killall dhclient
+ip a flush dev $COUSIN_IF
+ip a a $COUSIN_IP/32 dev $COUSIN_IF
+ip n flush dev $COUSIN_IF
+ip n a 10.0.0.1 lladdr $GATEWAY_MAC dev $COUSIN_IF
+ip r flush all
+ip r replace default via 10.0.0.1 proto static dev $COUSIN_IF onlink
+
