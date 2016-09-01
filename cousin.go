@@ -14,6 +14,7 @@ import (
 
 var (
 	device = flag.String("i", "", "interface")
+	expr = flag.String("e", "src port 443", "Triggering libpcap expression")
 	nentries = flag.Int("n", 1, "number")
 )
 
@@ -45,12 +46,10 @@ func main() {
 	defer h.Close()
 
 	var cousinables []Cousinable
-	expr := "src port 443"
-	if expr != "" {
-		err := h.SetFilter(expr)
-		if err != nil {
-			log.Fatalf("Unable to set filter: %v", err)
-		}
+
+	err = h.SetFilter(*expr)
+	if err != nil {
+		log.Fatalf("Unable to set filter: %v", err)
 	}
 
 	for pkt, r := h.NextEx(); r >= 0; pkt, r = h.NextEx() {
