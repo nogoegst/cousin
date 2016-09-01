@@ -13,9 +13,9 @@ import (
 
 
 var (
-	device = flag.String("i", "", "interface")
+	device = flag.String("i", "", "The interface to listen on")
 	expr = flag.String("e", "src port 443", "Triggering libpcap expression")
-	nentries = flag.Int("n", 1, "number")
+	nentries = flag.Int("n", 1, "Number of frames to capture")
 )
 
 type Cousinable struct {
