@@ -13,6 +13,7 @@ import (
 
 
 var (
+	debug = flag.Bool("debug", false, "Print more verbose stuff")
 	device = flag.String("i", "", "The interface to listen on")
 	expr = flag.String("e", "src port 443", "Triggering libpcap expression")
 	nentries = flag.Int("n", 1, "Number of frames to capture")
@@ -59,8 +60,10 @@ func main() {
 		pkt.Decode()
 		srcMAC := Uint64toHardwareAddr(pkt.SrcMac)
 		dstMAC := Uint64toHardwareAddr(pkt.DestMac)
-		fmt.Printf("Packet data %x\n", pkt.Data)
-		log.Printf("Headers: %v", pkt.Headers)
+		if *debug {
+			fmt.Printf("Packet data %x\n", pkt.Data)
+			log.Printf("Headers: %v", pkt.Headers)
+		}
 		//srcIP := net.IP(pkt.Headers[0].(*pcap.Iphdr).SrcIp)
 		dstIP := net.IP(pkt.Headers[0].(*pcap.Iphdr).DestIp)
 		cousinable := Cousinable{dstMAC, dstIP, srcMAC}
