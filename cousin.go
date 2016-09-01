@@ -32,7 +32,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("Unable to find any interfaces: %v", err)
 		}
-		if len(devs) == 0 {
+		if (len(devs) == 0) || (devs[0].Name == "any") {
 			log.Fatalf("No interfaces found")
 		}
 		*device = devs[0].Name
